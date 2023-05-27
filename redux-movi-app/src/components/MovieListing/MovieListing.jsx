@@ -1,13 +1,14 @@
 import { useSelector } from "react-redux"
-import { getAllMovies, getAllShows } from "../../features/movies/movieSlice"
+import { getAllMovies, getAllShows, getIsLoading } from "../../features/movies/movieSlice"
 import MovieCard from "../MovieCard/MovieCard"
 import Slider from 'react-slick';
 import { Settings } from "../../common/Apis/Slider";
+import BoltLoaders from "../LoaderComponents/BoltLoaders";
 export const MovieListing = () => {
 
     const movies = useSelector(getAllMovies)
     const shows = useSelector(getAllShows)
-
+    const isLoading = useSelector(getIsLoading)
     let renderMovies, renderShows = "";
 
     renderMovies =
@@ -33,11 +34,26 @@ export const MovieListing = () => {
         <div className=" m-6 ">
             <h1 className=" text-white ml-2 text-2xl  "> Movies </h1>
             <div>
-                <Slider {...Settings} > {renderMovies} </Slider>
+                {isLoading ? (
+                    <div className=" flex justify-center">
+                        <BoltLoaders />
+                    </div>
+                ) : (
+                    <Slider {...Settings} > {renderMovies} </Slider>
+                )}
+
             </div>
             <h2 className=" text-white ml-2 text-2xl"> Shows </h2>
             <div>
-                <Slider {...Settings}> {renderShows} </Slider>
+                {isLoading ? (
+                    <div className=" flex justify-center">
+                        <BoltLoaders />
+                    </div>
+                ) : (
+                    <Slider {...Settings}> {renderShows} </Slider>
+                )}
+
+
             </div>
 
         </div>
